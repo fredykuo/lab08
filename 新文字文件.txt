@@ -1,0 +1,35 @@
+#include <Ultrasonic.h>
+#include <LiquidCrystal.h>
+const byte intPin=2; //interrupt pin
+const byte ledPin=13; //built-in LED
+volatile boolean state=LOW;
+const int buttonPin = 6;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 7); // LCD arduino library
+
+Ultrasonic ultrasonic(9,8); // (Trig PIN,Echo PIN)
+
+void setup() {
+lcd.begin(16, 2);
+  Serial.begin(9600); 
+pinMode(ledPin, OUTPUT);
+pinMode(intPin, INPUT_PULLUP);
+attachInterrupt(2, int0, LOW);
+}
+
+void loop()
+{
+
+}
+void int0() { //interrupt handler
+lcd.clear();
+  lcd.setCursor(0, 1);
+  lcd.print(ultrasonic.Ranging(CM)); // CM or INC
+  lcd.print("cm");
+  lcd.print(ultrasonic.Ranging(INC));
+  lcd.print("IN");
+  Serial.print(ultrasonic.Ranging(CM)); // CM or INC
+  Serial.println(" cm" );
+  Serial.print(ultrasonic.Ranging(INC));
+  Serial.println(" IN" );
+
+}
